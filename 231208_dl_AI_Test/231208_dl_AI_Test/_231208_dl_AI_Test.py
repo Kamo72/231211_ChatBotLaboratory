@@ -4,6 +4,7 @@
 
 import _01_Prologue
 import _02_Data
+import _03_TextGenerate
 
 import tensorflow as tf
 print("TensorFlow version:", tf.__version__)
@@ -21,4 +22,4 @@ print("-----------device_lib------------")
 #_01_Prologue.TestPrologue();
 #_02_Data.DataSetTest();
 _02_Data.ModelTestUser();
-
+#_03_TextGenerate.TextGenarateTest()

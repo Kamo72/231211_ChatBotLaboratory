@@ -105,14 +105,12 @@ def ModelTestUser ():
                         continue
                     
                     model = ModelTestUserMoreLearn(model)
-                    
                 case "s" :
                     if (model == NULL) :
                         print("model not Loaded!")
                         continue
                     
                     model.save("my_model.keras");
-                
                 case "l" :
                     try :
                         model = tf.keras.models.load_model("my_model.keras")
