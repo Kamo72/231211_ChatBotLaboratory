@@ -2,7 +2,6 @@
 # 텐서 플로우 로드
 from os import read
 import tensorflow as tf
-print("TensorFlow version:", tf.__version__)
 
 def TestPrologue() :
     # Load a dataset

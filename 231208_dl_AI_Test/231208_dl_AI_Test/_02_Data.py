@@ -1,10 +1,9 @@
 
 # 텐서 플로우 로드
+
 from asyncio.windows_events import NULL
 import numpy as np
 import tensorflow as tf
-from tensorflow.python.ops.gen_control_flow_ops import switch
-print("TensorFlow version:", tf.__version__)
 
 
 #tf.data.Dataset
@@ -46,11 +45,21 @@ def DataSetTest ():
     #batch
     dataset = dataset.batch(batch_size=3)
     DataSetPrintBatch(dataset)
+    
+    #interleave
+    # dataset = dataset.interleave(
+    #     lambda x: tf.data.TextLineDataset(x).map(parse_function),
+    #     cycle_length=10,
+    #     num_parallel_calls=tf.data.experimental.AUTOTUNE
+    # )
 
 def ModelTest ():
     # 모델 정의
     model = tf.keras.Sequential([
         tf.keras.layers.Dense(64, activation='relu', input_shape=(1,)),
+        tf.keras.layers.Dense(32, activation='relu'),  # 은닉 계층 추가
+        tf.keras.layers.Dense(32, activation='relu'),  # 은닉 계층 추가
+        tf.keras.layers.Dense(32, activation='relu'),  # 은닉 계층 추가
         tf.keras.layers.Dense(1)  # 선형 레이어 (출력 값이 활성화 함수를 거치지 않음)
     ])
 
@@ -58,11 +67,11 @@ def ModelTest ():
     model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])
     
     # 훈련 데이터 생성
-    X_train = np.arange(0, 100, 1).reshape(-1, 1)
+    X_train = np.arange(-20000, 20000, 1).reshape(-1, 1)
     y_train = X_train * X_train
-
+    
     # 모델 훈련
-    model.fit(X_train, y_train, epochs=1000)
+    model.fit(X_train, y_train, epochs=1)
     
     # 테스트 데이터 생성
     X_test = np.array([[5], [10], [15], [215], [-23], [0], [1], [2], [9241]])  # 예시로 5, 10, 15를 입력해보겠습니다.
@@ -114,7 +123,8 @@ def ModelTestUser ():
                         print("model not Loaded! I'll Create it now...")
                         model = tf.keras.Sequential([
                             tf.keras.layers.Dense(64, activation='relu', input_shape=(1,)),
-                            tf.keras.layers.Dense(1)  # 선형 레이어 (출력 값이 활성화 함수를 거치지 않음)
+                            tf.keras.layers.Dense(32, activation='relu'),  # 은닉 계층 추가
+                             tf.keras.layers.Dense(1)  # 선형 레이어 (출력 값이 활성화 함수를 거치지 않음)
                         ])
                         # 모델 컴파일
                         model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])
@@ -122,16 +132,24 @@ def ModelTestUser ():
                 case _:
                     print("not Valid user input.")
 
-def ModelTestUserMoreLearn(model) :
-     # 훈련 데이터 생성
-    X_train = np.arange(0, 100, 1).reshape(-1, 1)
-    y_train = X_train * X_train
+def ModelTestUserMoreLearn(model):
+    # 훈련 데이터 생성
+    X_train = np.arange(-2000, 2000, 1).reshape(-1, 1)
+    y_train = X_train + 1
+
+    # 데이터를 tf.data.Dataset으로 변환
+    train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train))
+
+    train_dataset.shuffle(100)
+
+    # 데이터 캐싱
+    train_dataset = train_dataset.cache()
 
     # 모델 훈련
-    model.fit(X_train, y_train, epochs=1000)
-    
+    model.fit(train_dataset, epochs=40)
+
     # 테스트 데이터 생성
-    X_test = np.array([[5], [10], [15], [215], [-23], [0], [1], [2], [9241]])  # 예시로 5, 10, 15를 입력해보겠습니다.
+    X_test = np.array([[-5], [10], [15], [215], [-23], [0], [1], [2], [9241]])
 
     # 모델 예측
     predictions = model.predict(X_test)
@@ -140,7 +158,7 @@ def ModelTestUserMoreLearn(model) :
     print("Math.Pow() AI")
     for i in range(len(X_test)):
         print(f"Input: {X_test[i][0]}, Predicted Output: {predictions[i][0]}")
-    
+
     return model
         
 

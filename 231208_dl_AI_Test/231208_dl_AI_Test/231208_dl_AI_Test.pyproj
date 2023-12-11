@@ -23,7 +23,11 @@
   <ItemGroup>
     <Compile Include="_01_Prologue.py" />
     <Compile Include="_02_Data.py" />
+    <Compile Include="_03_TextGenerate.py" />
     <Compile Include="_231208_dl_AI_Test.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="cudnn64_8.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
