@@ -64,7 +64,7 @@ def ModelTest ():
     ])
 
     # 모델 컴파일
-    model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])
+    model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])2
     
     # 훈련 데이터 생성
     X_train = np.arange(-20000, 20000, 1).reshape(-1, 1)
@@ -137,6 +137,7 @@ def ModelTestUserMoreLearn(model):
 
     # 데이터를 tf.data.Dataset으로 변환
     train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train))
+    
 
     train_dataset.shuffle(100)
 
