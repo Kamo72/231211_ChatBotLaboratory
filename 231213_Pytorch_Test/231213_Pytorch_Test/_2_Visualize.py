@@ -74,8 +74,12 @@ def TestConv2dDisplay() :
 	torch_image = torch.squeeze(images[0])
 	#[28, 28]
 
-
-	layer = nn.Conv2d(in_channels = 1, out_channels = 20, kernel_size=5, stride=1)
+	layer = nn.Conv2d(
+		in_channels = 1,
+	    out_channels = 2,
+	    kernel_size=5,
+	    stride=1,
+		padding=5)
 	weight = layer.weight.detach().numpy()
 
 
@@ -84,7 +88,6 @@ def TestConv2dDisplay() :
 
 	input_image = torch.squeeze(images[0])
 	print(input_image.size()) # 28 28
-
 
 	input_data = torch.unsqueeze(images[0], dim = 0)
 	print(input_data.size()) # 1 1 28 28

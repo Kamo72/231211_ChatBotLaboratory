@@ -39,16 +39,22 @@ def TestLinear():
     #실제 학습
     epochs = 100
     losses = []
-    for epoch in 
-
-
-
-
-
-
-
-
-
+    for epoch in range(epochs) :
+        optimizer.zero_grad() # 
+        
+        y_pred = model(X)
+        loss = loss_fn(y_pred, y)
+        losses.append(loss.item())
+        loss.backward() # 역전파
+        
+        print(f"Epoch {epoch} / {epochs}")
+        optimizer.step() # 다음 스텝으로
+    
+    # plt.plot(range(epochs), losses)
+    # plt.ylabel('loss')
+    # plt.xlabel('epoch')
+    # plt.show()
+    
 
 def DataSetting() :
     #소스와 라벨 생성
@@ -65,7 +71,7 @@ def DataSetting() :
 
 def LossAndOpt (model):
     criterion = nn.MSELoss()
-    optimizer = optim.SGD(model.Parameters(), lr = 1e-3)
+    optimizer = optim.SGD(model.parameters(), lr = 1e-4)
     return criterion, optimizer
 
 class LinearRegressionModel (nn.Module) :
@@ -74,5 +80,5 @@ class LinearRegressionModel (nn.Module) :
         self.linear = nn.Linear(1,1)
         
     def forward(self, x) :
-        x = linear(x)
+        x = self.linear(x)
         return x
