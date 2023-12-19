@@ -13,7 +13,6 @@ def TestModelView() :
     
     print(list(model.modules()))
 
-
 class MyModel(nn.Module) :
 	def __init__(self) :
 		super(MyModel, self).__init__()
@@ -37,8 +36,7 @@ class MyModel(nn.Module) :
 		x = x.view(x.shape[0], -1)
 		x = self.layer3(x)
 		return x
-
-
+	
 def TestMetrics():
 	preds = torch.randn(10, 5).softmax(dim =-1)
 	target = torch.randint(5, (10, ))
@@ -53,9 +51,9 @@ def TestMetricsMultiple() :
 	n_batches = 10
 	for i in range(n_batches):
 		preds = torch.randn(10, 5).softmax(dim = 1)
-		target = torch.randint(5 , (10, ))
+		target = torch.randint(0, 5 , (10, ))
 
-		acc =metric(preds, target)
+		acc = metric(preds, target)
 		print(acc)
 
 	acc = metric.compute()

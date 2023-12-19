@@ -35,25 +35,25 @@ def TestLinear():
 
     loss_fn, optimizer = LossAndOpt(model)
     #손실 함수, 옵티마이저
-
+    
     #실제 학습
-    epochs = 100
+    epochs = 5000
     losses = []
     for epoch in range(epochs) :
-        optimizer.zero_grad() # 
+        optimizer.zero_grad() # 옵티마이저의 기울기 0으로
         
-        y_pred = model(X)
-        loss = loss_fn(y_pred, y)
-        losses.append(loss.item())
+        y_pred = model(X) # 전파
+        loss = loss_fn(y_pred, y) # 손실 함수
+        losses.append(loss.item()) # 손실값 리스트
         loss.backward() # 역전파
         
-        print(f"Epoch {epoch} / {epochs}")
+        print(f"Epoch {epoch} / {epochs} Loss : {loss}")
         optimizer.step() # 다음 스텝으로
     
-    # plt.plot(range(epochs), losses)
-    # plt.ylabel('loss')
-    # plt.xlabel('epoch')
-    # plt.show()
+    plt.plot(range(epochs), losses)
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.show()
     
 
 def DataSetting() :
@@ -71,7 +71,7 @@ def DataSetting() :
 
 def LossAndOpt (model):
     criterion = nn.MSELoss()
-    optimizer = optim.SGD(model.parameters(), lr = 1e-4)
+    optimizer = optim.Adadelta(model.parameters(), lr = 1e-2)
     return criterion, optimizer
 
 class LinearRegressionModel (nn.Module) :
@@ -82,3 +82,18 @@ class LinearRegressionModel (nn.Module) :
     def forward(self, x) :
         x = self.linear(x)
         return x
+    
+
+
+def DataSettingVisual() :
+    #소스와 라벨 생성
+    X = torch.randn(200, 1) * 10
+    y = X + 3 * torch.randn(200, 1)
+
+    #시각화
+    plt.scatter(X.numpy(), y.numpy())
+    plt.ylabel('y')
+    plt.xlabel('x')
+    plt.grid()
+    plt.show()
+    return X, y

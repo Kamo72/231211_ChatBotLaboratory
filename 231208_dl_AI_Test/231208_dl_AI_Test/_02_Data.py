@@ -64,7 +64,7 @@ def ModelTest ():
     ])
 
     # 모델 컴파일
-    model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])2
+    model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])
     
     # 훈련 데이터 생성
     X_train = np.arange(-20000, 20000, 1).reshape(-1, 1)

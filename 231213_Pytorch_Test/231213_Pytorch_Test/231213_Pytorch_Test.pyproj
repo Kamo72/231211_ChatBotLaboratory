@@ -27,6 +27,10 @@
     <Compile Include="_2_Visualize.py" />
     <Compile Include="_3_ModelAndModule.py" />
     <Compile Include="_4_LinearRegressionModel.py" />
+    <Compile Include="_5_KoGPT__Test.py" />
+    <Compile Include="_6_Tokenization.py" />
+    <Compile Include="_7_FashionMNIST.py" />
+    <Compile Include="_8_TransformersLib.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Memo.txt" />
