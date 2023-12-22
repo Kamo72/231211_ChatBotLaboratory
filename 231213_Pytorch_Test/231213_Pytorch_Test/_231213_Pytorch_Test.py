@@ -1,14 +1,15 @@
 # -*- coding: cp949 -*-
 
-import _0_Prologue
-import _1_TestModel
-import _2_Visualize
-import _3_ModelAndModule
-import _4_LinearRegressionModel
-import _5_KoGPT__Test
-import _6_Tokenization
-import _7_FashionMNIST
-import _8_TransformersLib
+# import _0_Prologue
+# import _1_TestModel
+# import _2_Visualize
+# import _3_ModelAndModule
+# import _4_LinearRegressionModel
+# import _5_KoGPT__Test
+# import _6_Tokenization
+# import _7_FashionMNIST
+#import _8_TransformersLib
+import _9_TransformTry
 
 if __name__ == '__main__':
     #_0_Prologue.TestWhole()
@@ -23,4 +24,5 @@ if __name__ == '__main__':
     #_5_KoGPT__Test.ChatBotQandA()
     #_6_Tokenization.TokenizationTest()
     #_7_FashionMNIST.FashionTest()
-    _8_TransformersLib.Test()
+    #_8_TransformersLib.TestPipe()
+    _9_TransformTry.TestWhole()

@@ -81,11 +81,8 @@ def TextGenTest ():
 
 def TextGenLoop(): 
     tokenizer = AutoTokenizer.from_pretrained('skt/kogpt2-base-v2')
-
     model = TFGPT2LMHeadModel.from_pretrained('skt/kogpt2-base-v2', from_pt=True)
     
-    """# 3. Numpy Top 5로 문장 생성하기"""
-
     while(True) :
         sent = input("input : ")
         input_ids = tokenizer.encode(sent)
@@ -278,6 +275,7 @@ def ChatBotLoop() :
         question  = input("질문 : ")
         answer = return_answer_by_chatbot(question)
         print("답장 : " + answer)
+        
 def ChatBotQandA() :
     tokenizer = AutoTokenizer.from_pretrained('skt/kogpt2-base-v2', bos_token='</s>', eos_token='</s>', pad_token='<pad>')
     model = TFGPT2LMHeadModel.from_pretrained('skt/kogpt2-base-v2', from_pt=True)
@@ -320,9 +318,3 @@ def ChatBotQandA() :
 # import matplotlib.pyplot as plt
 
 # import gpt_2_simple as gpt2
-
-
-def Init():
-   sess = gpt2.start_tf_sess()
-   gpt2.finetune(sess, 'shakespeare.txt', steps=1000)   # steps is max number of training steps
-   print(gpt2.generate(sess))

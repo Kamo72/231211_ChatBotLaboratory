@@ -31,6 +31,7 @@
     <Compile Include="_6_Tokenization.py" />
     <Compile Include="_7_FashionMNIST.py" />
     <Compile Include="_8_TransformersLib.py" />
+    <Compile Include="_9_TransformTry.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Memo.txt" />
