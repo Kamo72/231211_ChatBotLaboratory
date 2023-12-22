@@ -1,4 +1,6 @@
 # -*- coding: cp949 -*-
+from asyncio.windows_events import NULL
+from re import split
 import torch
 from transformers import GenerationConfig, pipeline
 from transformers import T5Tokenizer, T5ForConditionalGeneration
@@ -7,9 +9,160 @@ from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from Models import T5TextGen, En2Kr, Kr2En
 from Procedure import Procedure
 from LectureManager import LectureManager
+from ServerAndClient import Server,Client
+import socket, time
 
 def MainProcess() :
+    server = NULL
+    client = NULL
     lm = LectureManager()
+    proc = Procedure()
+
+    def ServerDel (client_socket, msg) :
+        print(msg),
+        sp = msg.split("#")
+        flag = sp[0]
+        match flag:
+            case "CreateLecture" : pass
+            case "DeleteLecture" : pass
+            case "ListLecture" : pass
+            case "CreatePart" : pass
+            case "DeletePart" : pass
+            case "Listpart" : pass
+            case "AppendContext" : pass
+            case "ResetContext" : pass
+            case "ListContext" : pass
+            case "LoadContext" : pass
+            case "GetAnswer" : pass
+            case "StopProcess" : pass
+    
+    def ClientDel (msg) :
+        print(msg),
+        sp = msg.split("#")
+        flag = sp[0]
+        match flag:
+            case "CreateLecture" :
+                res = lm.MakeLecture(sp[1])
+                client.Send("CreateLecture#" + str(res))
+                
+            case "DeleteLecture" : 
+                res = lm.DeleteLecture(sp[1])
+                client.Send("DeleteLecture#" + str(res))
+                
+            case "ListLecture" : 
+                res = lm.ListLecture()
+                pac = "ListLecture#"
+                for lec in res : pac += lec + "@"
+                client.Send(pac)
+                
+            case "CreatePart" : 
+                ssp = sp[1].split("@")
+                lm.LoadLecture(ssp[0])
+                res = lm.MakePart(ssp[1])
+                client.Send("CreatePart#" + str(res))
+                
+            case "DeletePart" :
+                ssp = sp[1].split("@")
+                lm.LoadLecture(ssp[0])
+                res = lm.DeletePart(ssp[1])
+                client.Send("DeletePart#" + str(res))
+                
+            case "Listpart" : 
+                lm.LoadLecture(sp[1])
+                res = lm.ListPart()
+                pac = "Listpart#"
+                for part in res : pac += part + "@"
+                client.Send(pac)
+                
+            case "AppendContext" : 
+                ssp = sp[1].split("@")
+                lm.LoadLecture(ssp[0])
+                lm.LoadPart(ssp[1])
+                res = lm.WriteContext(ssp[2])
+                client.Send("AppendContext#" + str(res))
+                
+            case "ResetContext" :
+                ssp = sp[1].split("@")
+                lm.LoadLecture(ssp[0])
+                lm.LoadPart(ssp[1])
+                res = lm.ResetContext()
+                client.Send("ResetContext#" + str(res))
+                
+            case "ListContext" :
+                ssp = sp[1].split("@")
+                lm.LoadLecture(ssp[0])
+                lm.LoadPart(ssp[1])
+                res = lm.ReadContext()
+                pac = "ListContext#"
+                for part in res : pac += part + "@"
+                client.Send(pac)
+            
+            case "LoadContext" :
+                ssp = sp[1].split("@")
+                lm.LoadLecture(ssp[0])
+                lm.LoadPart(ssp[1])
+                res = lm.ReadContext()
+                proc.SetInfo(res)
+                client.Send("LoadContext#" + str(True))
+                
+            case "GetAnswer" :
+                ssp = sp[1].split("@")
+                idx = ssp[0]
+                res = proc.GetAnswer(ssp[1])
+                client.Send("GetAnswer#" +ssp[0]+"#"+ res)
+                
+            case "StopProcess" :
+                exit()
+
+    server = Server('127.0.0.1', 4090, ServerDel)
+    client = Client('127.0.0.1', 4090, ClientDel)
+    
+    server.Deploy()
+    client.Connect()
+    
+    
+    time.sleep(1)
+    server.Send("CreateLecture#박상한의 케로로학")
+    time.sleep(1)
+    server.Send("DeleteLecture#박상한의 케로로학")
+    time.sleep(1)
+    server.Send("CreateLecture#박상한의 케로로학")
+    time.sleep(1)
+    server.Send("ListLecture#")
+    time.sleep(1)
+    server.Send("CreatePart#박상한의 케로로학@케로케로링")
+    time.sleep(1)
+    server.Send("DeletePart#박상한의 케로로학@케로케로링")
+    time.sleep(1)
+    server.Send("CreatePart#박상한의 케로로학@케로케로링")
+    time.sleep(1)
+    server.Send("CreatePart#박상한의 케로로학@아마겟돈 천분의 일")
+    time.sleep(1)
+    server.Send("Listpart#박상한의 케로로학")
+    time.sleep(1)
+    server.Send("ResetContext#박상한의 케로로학@케로케로링")
+    time.sleep(1)
+    server.Send("AppendContext#박상한의 케로로학@케로케로링@박상한은 전교 1등의 학생이다. 박상한 학생은 매우 똑똑하며, 인공지능 분야에서 큰 능력을 발휘한다. 박상한 학생은 좋은 성적을 가지고 있는 학생이다.")
+    time.sleep(1)
+    server.Send("ResetContext#박상한의 케로로학@아마겟돈 천분의 일")
+    time.sleep(1)
+    server.Send("AppendContext#박상한의 케로로학@아마겟돈 천분의 일@박상한은 우송대에서 탈출한 학생이다. 박상한 학생은 우송대에 싫증을 느끼고 있었다. 박상한 학생은 우송대를 싫어한다. 박상한 학생은 우송대에서 도망쳤다.")
+    time.sleep(1)
+    server.Send("LoadContext#박상한의 케로로학@아마겟돈 천분의 일")
+    time.sleep(10)
+    server.Send("GetAnswer#1@박상한 학생에 대해 설명해줄래?")
+    time.sleep(1)
+    server.Send("LoadContext#박상한의 케로로학@케로케로링")
+    time.sleep(10)
+    server.Send("GetAnswer#2@박상한 학생에 대해 설명해줄래?")
+
+    a = input("insert any")
+    exit()
+
+
+
+
+
     
     # lm.LoadLecture("이동우_옹알이개론")
     # lm.LoadPart("비주얼 스튜디오 버전이 안맞네요")
@@ -68,7 +221,6 @@ def MainProcess() :
 
     
 
-    proc = Procedure()
 
     infoKrTexts = ["""
         인공지능 학습은 에너지와 시간, 정보, 장비 등이 극한까지 요구되는 활동.

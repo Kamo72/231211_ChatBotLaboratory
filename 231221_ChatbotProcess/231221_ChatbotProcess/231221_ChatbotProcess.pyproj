@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ServerAndClient.py" />
     <Compile Include="LectureManager.py" />
     <Compile Include="Models.py" />
     <Compile Include="ppgTranslater.py" />

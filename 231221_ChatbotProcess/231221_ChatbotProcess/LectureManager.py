@@ -11,7 +11,6 @@ class LectureManager(object):
         self.partPath = ""
     
 
-
     def LoadLecture(self, lectureName) :
         dirPath = f"{self.filePath}\{lectureName}"
         
@@ -47,21 +46,21 @@ class LectureManager(object):
         ditToDel = f"{self.filePath}\{lecture}.txt"
         
         try:
-            if os.path.exists(toDelDir):
-                print(f"[WARNING] failed to delete directory : {toDelDir}, it's not exists already.")
+            if os.path.exists(ditToDel):
+                print(f"[WARNING] failed to delete directory : {ditToDel}, it's not exists already.")
                 return False
             
-            os.rmdir(toDelDir)
+            os.rmdir(ditToDel)
             
-            if(self.lecturePath == toDelDir) :
+            if(self.lecturePath == ditToDel) :
                 self.partPath = ""
                 self.lecturePath = ""
                 
-            print(f'[SUCCEED] success to delete : {toDelDir}')
+            print(f'[SUCCEED] success to delete : {ditToDel}')
             return True
         
         except OSError as e:
-            print(f'[ERROR] failed to delete : {toDelDir}')
+            print(f'[ERROR] failed to delete : {ditToDel}')
             return False
 
 
@@ -160,9 +159,12 @@ class LectureManager(object):
 
         # 줄바꿈에 따라 3줄씩 끊어서 배열로 저장
         lines_array = [lines[i:i+3] for i in range(0, len(lines), 3)]
-        
-        for lineSet in lines_array :
-            lineSet.Replace("    ")
+
+        if(len(lines_array) != 0) :
+            lines_array = lines_array[0]
+
+        # for lineSet in lines_array :
+        #     lineSet.replace("    ","")
             
         print(f"[SUCCEED] succesfully contexts is read")
         return lines_array
