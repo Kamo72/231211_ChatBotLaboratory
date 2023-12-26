@@ -3,6 +3,7 @@ import sys
 import urllib.request
 import json
 
+# ÆÄÆÄ°í API
 class PPGTranslater(object):
     def __init__(self):
         self.client_id = "Vsl7By5p_q7pJCM6WmBI"
@@ -14,7 +15,6 @@ class PPGTranslater(object):
     
     def SetAvailable(self, isAvailable) :
        self.available = isAvailable
-            
         
     def Translate(self, enText, isEntoKo) :
         encText = urllib.parse.quote(enText)
@@ -40,7 +40,7 @@ class PPGTranslater(object):
             self.SetAvailable(False)
             print("Error Code:" + rescode)
             return "[API ERROR : Papago malfunction]"
-    pass
+    
 
 
 

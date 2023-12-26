@@ -4,8 +4,9 @@ from transformers import GenerationConfig, pipeline
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
+# T5 문장 생성 모델 - large
 class T5TextGen():
-    
+    # 토크나이저와 모델을 로드합니다. 이 과정은 오래 걸릴 수 있습니다.
     def __init__ (self):
         print('[Process] Loading T5...')
         modelname = "google/flan-t5-large"
@@ -13,6 +14,7 @@ class T5TextGen():
         self.model = T5ForConditionalGeneration.from_pretrained(modelname).to("cuda")
         print('[Process] Loaded T5!')
     
+    # 문맥과 질문을 전달 받아 답변을 생성 후 반환합니다.
     def MakeAnswer (self, infoEnText, inputEnText) :
         print('[Process] Answer generating...')
         input_ids = self.tokenizer(infoEnText + "Question : Please write about 50 characters,  " +inputEnText + "?", return_tensors="pt").input_ids.to("cuda")
@@ -30,7 +32,7 @@ class T5TextGen():
         print('[Process] Answer generated! - ' + outputEnText)
         return outputEnText
 
-
+# 영어 > 한국어 번역 모델
 class En2Kr ():
     
     def __init__(self) :
@@ -62,7 +64,7 @@ class En2Kr ():
         print('[Process] en2krTrs translated! - ' + translated_text)
         return translated_text
     
-
+# 한국어 > 영어 번역 모델
 class Kr2En ():
 
     def __init__(self) :

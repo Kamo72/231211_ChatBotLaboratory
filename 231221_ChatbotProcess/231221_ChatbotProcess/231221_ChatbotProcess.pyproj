@@ -4,13 +4,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f9fd42c1-ce66-4c55-a09e-1e84ce9acd00</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>_231221_ChatbotProcess.py</StartupFile>
+    <StartupFile>STTmodule.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>231221_ChatbotProcess</Name>
     <RootNamespace>231221_ChatbotProcess</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,7 +27,9 @@
     <Compile Include="Models.py" />
     <Compile Include="ppgTranslater.py" />
     <Compile Include="Procedure.py" />
-    <Compile Include="_231221_ChatbotProcess.py" />
+    <Compile Include="ClientProcess.py" />
+    <Compile Include="ServerProcess.py" />
+    <Compile Include="STTmodule.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
