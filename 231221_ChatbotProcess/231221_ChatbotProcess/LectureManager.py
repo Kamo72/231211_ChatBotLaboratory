@@ -37,7 +37,7 @@ class LectureManager(object):
             return False
     
     # 해당 과목을 생성합니다.
-    def MakeLecture(self, lectureName, ):
+    def MakeLecture(self, lectureName):
         dirPath = f"{self.filePath}\{lectureName}"
         
         if os.path.exists(dirPath):
