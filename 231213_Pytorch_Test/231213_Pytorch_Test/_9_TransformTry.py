@@ -8,8 +8,8 @@ from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 
 def TestTextGen() :
-    tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-xxl")
-    model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-xxl", device_map = "auto")
+    tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-base")
+    model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-base", device_map = "auto")
 
     while True :
         inputText = input("input : ")

@@ -25,4 +25,4 @@ if __name__ == '__main__':
     #_6_Tokenization.TokenizationTest()
     #_7_FashionMNIST.FashionTest()
     #_8_TransformersLib.TestPipe()
-    _9_TransformTry.TestWhole()
+    _9_TransformTry.TestTextGen()
